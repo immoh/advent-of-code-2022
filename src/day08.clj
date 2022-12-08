@@ -22,7 +22,6 @@
 (defn visible-in-dir? [grid position dir]
   (every? (partial > (grid position)) (trees-in-dir grid position dir)))
 
-
 (defn visible? [grid position]
   (some (partial visible-in-dir? grid position) dirs))
 
@@ -37,14 +36,11 @@
 ;; Part 2
 
 (defn viewing-distance [height trees]
-  (cond
-    (not (seq trees)) 0
-    (<= height (first trees)) 1
-    :else (->> trees
-               (partition 2 1)
-               (take-while (fn [[x y]] (< x (max height y))))
-               count
-               inc)))
+  (->> trees
+       (partition 2 1)
+       (take-while (fn [[x y]] (< x (max height y))))
+       count
+       inc))
 
 (defn viewing-distance-in-dir [grid position dir]
   (viewing-distance (grid position) (trees-in-dir grid position dir)))
@@ -56,8 +52,8 @@
 
 (defn part2 [input]
   (let [{:keys [grid rows columns]} (parse-input input)]
-    (->> (for [x (range rows)
-               y (range columns)]
+    (->> (for [x (range 1 (dec rows))
+               y (range 1 (dec columns))]
            [x y])
          (map (partial scenic-score grid))
          (reduce max))))
