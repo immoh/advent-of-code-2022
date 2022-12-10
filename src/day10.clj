@@ -1,4 +1,6 @@
-(ns day10)
+(ns day10
+  (:require
+    clojure.string))
 
 (defn parse-input [input]
   (map #(clojure.string/split % #" ") (clojure.string/split-lines input)))
@@ -31,8 +33,8 @@
   (->> (parse-input input)
        x-values
        (map-indexed (fn [i x]
-              (if (<= (dec x) (mod i 40) (inc x))
-                \#
-                \.)))
+                      (if (<= (dec x) (mod i 40) (inc x))
+                        \#
+                        \.)))
        (partition 40)
        (map (partial apply str))))
